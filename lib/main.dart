@@ -34,78 +34,68 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: BlocListener<CounterCubit, CounterState>(
-        listener: (context, state) {
-          if (state.wasDecremented) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Counter was decremented'),
-                duration: Duration(milliseconds: 500),
-              ),
-            );
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Counter was incremented'),
-                duration: Duration(milliseconds: 500),
-              ),
-            );
-          }
-        },
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Text(
-                'You have pushed the button this many times:',
-              ),
-              BlocBuilder<CounterCubit, CounterState>(
-                builder: (context, state) {
-                  return Text(
-                    '${state.count}',
-                    style: Theme.of(context).textTheme.headline4,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text(
+              'You have pushed the button this many times:',
+            ),
+            BlocConsumer<CounterCubit, CounterState>(
+              listener: (context, state) {
+                if (state.wasDecremented) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Counter was decremented'),
+                      duration: Duration(milliseconds: 500),
+                    ),
                   );
-                },
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  FloatingActionButton(
-                    onPressed: () {
-                      context.read<CounterCubit>().increment();
-                    },
-                    tooltip: 'Increment',
-                    child: const Icon(
-                      Icons.add,
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Counter was incremented'),
+                      duration: Duration(milliseconds: 500),
                     ),
+                  );
+                }
+              },
+              builder: (context, state) {
+                return Text(
+                  '${state.count}',
+                  style: Theme.of(context).textTheme.headline4,
+                );
+              },
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                FloatingActionButton(
+                  onPressed: () {
+                    context.read<CounterCubit>().increment();
+                  },
+                  tooltip: 'Increment',
+                  child: const Icon(
+                    Icons.add,
                   ),
-                  FloatingActionButton(
-                    onPressed: () {
-                      context.read<CounterCubit>().decrement();
-                    },
-                    tooltip: 'Decrement',
-                    child: const Icon(
-                      Icons.remove,
-                    ),
+                ),
+                FloatingActionButton(
+                  onPressed: () {
+                    context.read<CounterCubit>().decrement();
+                  },
+                  tooltip: 'Decrement',
+                  child: const Icon(
+                    Icons.remove,
                   ),
-                ],
-              )
-            ],
-          ),
+                ),
+              ],
+            )
+          ],
         ),
       ),
     );
