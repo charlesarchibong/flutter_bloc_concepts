@@ -29,7 +29,7 @@ void main() {
         act: (CounterCubit cubit) => cubit.increment(),
         expect: () => [const CounterState(count: 1, wasDecremented: false)],
       );
-
+ 
       blocTest(
         'should emit CounterState(count: -1, wasDecremented: true,) when decrement event is injected',
         build: () => counterCubit,
